@@ -218,6 +218,17 @@ fn fight_with_rat(mut rhp: i32, rdamage: i32, diff: i32, mut php: i32, pd: i32, 
                         if php == 0 {
                             println!("You are dead!");
                             println!("Your progress: {}", style(p).blue());
+                            if diff == 6 {
+                                let diff_end = "EASY";
+                                println!("Your run was on {} difficulty!", style(diff_end).yellow());
+                            } else if diff == 5 {
+                                let diff_end = "NORMAL";
+                                println!("Your run was on {} difficulty!", style(diff_end).yellow());
+                            } else if diff == 4 {
+                                let diff_end = "HARD";
+                                println!("Your run was on {} difficulty!", style(diff_end).yellow());
+                            }
+                            // println!("Your run was on {} difficulty!", style(diff).yellow());
 							let data_inbytes: &[u8] = &[p];
 							let mut data = File::create("data.txt").expect("Could not create file!");
 							data.write(data_inbytes).expect("Could not write data!");
@@ -240,6 +251,17 @@ fn fight_with_rat(mut rhp: i32, rdamage: i32, diff: i32, mut php: i32, pd: i32, 
                         if php == 0 {
                             println!("You are dead!");
                             println!("Your progress: {}", style(p).blue());
+                            if diff == 6 {
+                                let diff_end = "EASY";
+                                println!("Your run was on {} difficulty!", style(diff_end).yellow());
+                            } else if diff == 5 {
+                                let diff_end = "NORMAL";
+                                println!("Your run was on {} difficulty!", style(diff_end).yellow());
+                            } else if diff == 4 {
+                                let diff_end = "HARD";
+                                println!("Your run was on {} difficulty!", style(diff_end).yellow());
+                            }
+                            // println!("Your run was on {} difficulty!", style(diff_end).yellow());
 							let data_inbytes: &[u8] = &[p];
 							let mut data = File::create("data.txt").expect("Could not create file!");
 							data.write(data_inbytes).expect("Could not write data!");
