@@ -128,6 +128,31 @@ fn game_start() {
     going_forward(progress.tile, difficulty, rat.hp, rat.damage, player.hp, player.damage, false);
 }
 
+// megkell nézni
+fn progress_forward() {
+    progress += 1;
+    println!("progress: {}", progress);
+    println!("you advanced 1 tile!\n");
+    let rat_spawn_chance = rand::rng().random_range(1..=10);
+                
+    // Debug start
+    println!("tsc: {}", tsc);
+    // Debug end
+
+    // Debug start
+    println!("rsc: {}", rat_spawn_chance);
+    // Debug end
+    match rat_spawn_chance.cmp(&diff) {
+    Ordering::Less => going_forward(progress, diff, rhp, rdamage, php, pd, true),
+    Ordering::Equal => going_forward(progress, diff, rhp, rdamage, php, pd, true),
+    Ordering::Greater => {
+        disable_raw_mode().unwrap();
+        println!("You encountered a rat!");
+        fight_with_rat(rhp, rdamage, diff, php, pd, progress);
+        break;
+    }
+}
+
 fn going_forward(mut progress: u8, diff: i32, rhp: i32, rdamage: i32, php: i32, pd: i32, pu: bool) {
     let mut tsc = rand::rng().random_range(4..=6);
     if pu == true {
@@ -175,6 +200,15 @@ fn going_forward(mut progress: u8, diff: i32, rhp: i32, rdamage: i32, php: i32, 
                         break;
                     }
             }}
+            // megkell nézni
+            Event::Key(KeyEvent {
+                code: KeyCode::Char('p'),
+                modifiers: KeyModifiers::NONE,
+                state: KeyEventState::NONE,
+                kind: KeyEventKind::Press,
+            } => {
+                
+            }
             _ => ()
         }
     }
