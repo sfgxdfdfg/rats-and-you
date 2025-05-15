@@ -5,3 +5,5 @@ build.sh
 buildrelease.sh
 copy.sh
 copyrelease.sh
+startVM.sh
+stopVM.sh
