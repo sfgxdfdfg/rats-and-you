@@ -31,8 +31,8 @@ fn main() {
     let main_menu = "|Main menu|";
     let main_menu = pad_str(main_menu, 125, Alignment::Center, None);
     println!("{}", style(main_menu).yellow());
-	let controls = "p - START GAME || q - EXIT";
-	let controls = pad_str(controls, 120, Alignment::Center, None);
+    let controls = "p - START GAME || q - EXIT";
+    let controls = pad_str(controls, 120, Alignment::Center, None);
     println!("{}", style(controls).cyan());
 
     loop {
@@ -60,7 +60,7 @@ fn main() {
 }
 
 fn game_start() {
-    let difficulty: i32; // Minel lejjebb annal nehezebb, minel feljebb annal konnyebb!
+    let diff: i32; // Minel lejjebb annal nehezebb, minel feljebb annal konnyebb!
     let set_diff: i32;
     println!("Before you start the game you NEED to set the difficulty!\n(1-10)\n6 - EASY\n5 - NORMAL\n4 - HARD");
 
@@ -77,15 +77,15 @@ fn game_start() {
                 sleep(dur);
                 exit(0);
             }
-			Event::Key(KeyEvent {
-				code: KeyCode::Char('4'),
-				modifiers: KeyModifiers::NONE,
-				state: KeyEventState::NONE,
-				kind: KeyEventKind::Press,
-			}) => {
-				set_diff = 4;
-				break;
-			}
+			      Event::Key(KeyEvent {
+				        code: KeyCode::Char('4'),
+				        modifiers: KeyModifiers::NONE,
+				        state: KeyEventState::NONE,
+				        kind: KeyEventKind::Press,
+			      }) => {
+				        set_diff = 4;
+				        break;
+			      }
             Event::Key(KeyEvent {
                 code: KeyCode::Char('5'),
                 modifiers: KeyModifiers::NONE,
@@ -95,21 +95,21 @@ fn game_start() {
                 set_diff = 5;
                 break;
             }
-			Event::Key(KeyEvent {
-			    code: KeyCode::Char('6'),
-			    modifiers: KeyModifiers::NONE,
-			    state: KeyEventState::NONE,
-			    kind: KeyEventKind::Press,
-			}) => {
-			    set_diff = 6;
-			    break;
-			}
+			      Event::Key(KeyEvent {
+			          code: KeyCode::Char('6'),
+			          modifiers: KeyModifiers::NONE,
+			          state: KeyEventState::NONE,
+			          kind: KeyEventKind::Press,
+			      }) => {
+			           set_diff = 6;
+			          break;
+			      }
             _ => ()
         }
     }
 
     println!("Setting difficulty: {}", set_diff);
-    difficulty = set_diff;
+    diff = set_diff;
 
     println!("You enter the dungeon!");
     println!("Press w to move forward!");
@@ -125,7 +125,7 @@ fn game_start() {
         hp: 20,
         damage: 5
     };
-    going_forward(progress.tile, difficulty, rat.hp, rat.damage, player.hp, player.damage, false);
+    going_forward(progress.tile, diff, rat.hp, rat.damage, player.hp, player.damage, false);
 }
 
 fn going_forward(mut progress: u8, diff: i32, rhp: i32, rdamage: i32, php: i32, pd: i32, pu: bool) {
@@ -195,7 +195,6 @@ fn fight_with_rat(mut rhp: i32, rdamage: i32, diff: i32, mut php: i32, pd: i32, 
                 state: KeyEventState::NONE,
                 kind: KeyEventKind::Press,
             }) => {
-
                 match attack_chance.cmp(&diff) {
                     Ordering::Less => {
                         rhp -= pd;
@@ -229,12 +228,12 @@ fn fight_with_rat(mut rhp: i32, rdamage: i32, diff: i32, mut php: i32, pd: i32, 
                                 println!("Your run was on {} difficulty!", style(diff_end).yellow());
                             }
                             // println!("Your run was on {} difficulty!", style(diff).yellow());
-							let data_inbytes: &[u8] = &[p];
-							let mut data = File::create("data.txt").expect("Could not create file!");
-							data.write(data_inbytes).expect("Could not write data!");
-							// Debug start
-							println!("Created file!");
-							// Debug end
+							              let data_inbytes: &[u8] = &[p];
+							              let mut data = File::create("data.txt").expect("Could not create file!");
+							              data.write_all(data_inbytes).expect("Could not write data!");
+							              // Debug start
+							              println!("Created file!");
+							              // Debug end
                             println!("(The program will now exit...)");
                             let dur = Duration::new(5, 0);
                             sleep(dur);
@@ -262,12 +261,12 @@ fn fight_with_rat(mut rhp: i32, rdamage: i32, diff: i32, mut php: i32, pd: i32, 
                                 println!("Your run was on {} difficulty!", style(diff_end).yellow());
                             }
                             // println!("Your run was on {} difficulty!", style(diff_end).yellow());
-							let data_inbytes: &[u8] = &[p];
-							let mut data = File::create("data.txt").expect("Could not create file!");
-							data.write(data_inbytes).expect("Could not write data!");
-							// Debug start
-							println!("File created!");
-							// Debug end
+							              let data_inbytes: &[u8] = &[p];
+							              let mut data = File::create("data.txt").expect("Could not create file!");
+						            	  data.write_all(data_inbytes).expect("Could not write data!");
+							              // Debug start
+							              println!("File created!");
+							              // Debug end
                             println!("(The program will now exit...)");
                             let dur = Duration::new(5, 0);
                             sleep(dur);
@@ -284,3 +283,4 @@ fn fight_with_rat(mut rhp: i32, rdamage: i32, diff: i32, mut php: i32, pd: i32, 
         }
     }
 }
+
