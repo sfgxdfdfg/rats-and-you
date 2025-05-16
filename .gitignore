@@ -1,6 +1,11 @@
+# Project files/folders
+
 /target
 Cargo.lock
 Cargo.toml
+
+# Bash scripts
+
 build.sh
 buildrelease.sh
 copy.sh
