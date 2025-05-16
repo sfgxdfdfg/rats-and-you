@@ -20,7 +20,8 @@ pub struct Progress {
 
 pub struct Player {
     hp: i32,
-    damage: i32
+    damage: i32,
+    coin: i32
 }
 
 fn main() {
@@ -123,7 +124,8 @@ fn game_start() {
     };
     let player = Player {
         hp: 20,
-        damage: 5
+        damage: 5,
+        coin: 0
     };
     going_forward(progress.tile, diff, rat.hp, rat.damage, player.hp, player.damage, false);
 }
