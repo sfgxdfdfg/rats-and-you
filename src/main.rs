@@ -127,10 +127,10 @@ fn game_start() {
         damage: 5,
         coin: 0
     };
-    going_forward(progress.tile, diff, rat.hp, rat.damage, player.hp, player.damage, false);
+    going_forward(progress.tile, diff, rat.hp, rat.damage, player.hp, player.damage, player.coin, false);
 }
 
-fn going_forward(mut progress: u8, diff: i32, rhp: i32, rdamage: i32, php: i32, pd: i32, pu: bool) {
+fn going_forward(mut progress: u8, diff: i32, rhp: i32, rdamage: i32, php: i32, pd: i32, mut pc: i32, pu: bool) {
     let mut tsc = rand::rng().random_range(4..=6);
     if pu == true {
         tsc = 0
@@ -159,6 +159,7 @@ fn going_forward(mut progress: u8, diff: i32, rhp: i32, rdamage: i32, php: i32, 
                 println!("progress: {}", progress);
                 println!("you advanced 1 tile!\n");
                 let rat_spawn_chance = rand::rng().random_range(1..=10);
+                let chest_spawn_chance = rand::rng().random_range(1..=20);
                 
                 // Debug start
                 println!("tsc: {}", tsc);
@@ -167,13 +168,27 @@ fn going_forward(mut progress: u8, diff: i32, rhp: i32, rdamage: i32, php: i32, 
                 // Debug start
                 println!("rsc: {}", rat_spawn_chance);
                 // Debug end
+                
+                // Debug start
+                println!("csp: {}", chest_spawn_chance);
+                // Debug end
+                
+                match chest_spawn_chance.cmp(&diff) {
+                    Ordering::Less => {
+                        pc += 2;
+                        println!("Your coins: {}", pc);
+                    }
+                    Ordering::Equal => continue,
+                    Ordering::Greater => continue
+                }
+                 
                 match rat_spawn_chance.cmp(&diff) {
-                    Ordering::Less => going_forward(progress, diff, rhp, rdamage, php, pd, true),
-                    Ordering::Equal => going_forward(progress, diff, rhp, rdamage, php, pd, true),
+                    Ordering::Less => going_forward(progress, diff, rhp, rdamage, php, pd, pc, true),
+                    Ordering::Equal => going_forward(progress, diff, rhp, rdamage, php, pd, pc, true),
                     Ordering::Greater => {
                         disable_raw_mode().unwrap();
                         println!("You encountered a rat!");
-                        fight_with_rat(rhp, rdamage, diff, php, pd, progress);
+                        fight_with_rat(rhp, rdamage, diff, php, pd, pc, progress);
                         break;
                     }
             }}
@@ -182,7 +197,7 @@ fn going_forward(mut progress: u8, diff: i32, rhp: i32, rdamage: i32, php: i32, 
     }
 }
 
-fn fight_with_rat(mut rhp: i32, rdamage: i32, diff: i32, mut php: i32, pd: i32, p: u8) {
+fn fight_with_rat(mut rhp: i32, rdamage: i32, diff: i32, mut php: i32, pd: i32, pc: i32, p: u8) {
     let attack_chance = rand::rng().random_range(1..=10);
     // Debug start
     println!("ac: {}", attack_chance);
@@ -207,10 +222,10 @@ fn fight_with_rat(mut rhp: i32, rdamage: i32, diff: i32, mut php: i32, pd: i32, 
                         if rhp == 0 {
                             println!("You defeated the rat!\n");
                             rhp = 5;
-                            going_forward(p, diff, rhp, rdamage, php, pd, true);
+                            going_forward(p, diff, rhp, rdamage, php, pd, pc, true);
                         } else {
                             println!("The rat is not dead!");
-                            fight_with_rat(rhp, rdamage, diff, php, pd, p);
+                            fight_with_rat(rhp, rdamage, diff, php, pd, pc, p);
                         }
                     }
                     Ordering::Equal => {
@@ -219,19 +234,20 @@ fn fight_with_rat(mut rhp: i32, rdamage: i32, diff: i32, mut php: i32, pd: i32, 
                         if php == 0 {
                             println!("You are dead!");
                             println!("Your progress: {}", style(p).blue());
+                            println!("Collected coins: {}", style(pc).yellow());
                             if diff == 6 {
                                 let diff_end = "EASY";
-                                println!("Your run was on {} difficulty!", style(diff_end).yellow());
+                                println!("Your run was on {} difficulty!", style(diff_end).green());
                             } else if diff == 5 {
                                 let diff_end = "NORMAL";
                                 println!("Your run was on {} difficulty!", style(diff_end).yellow());
                             } else if diff == 4 {
                                 let diff_end = "HARD";
-                                println!("Your run was on {} difficulty!", style(diff_end).yellow());
+                                println!("Your run was on {} difficulty!", style(diff_end).red());
                             }
                             // println!("Your run was on {} difficulty!", style(diff).yellow());
 							              let data_inbytes: &[u8] = &[p];
-							              let mut data = File::create("data.txt").expect("Could not create file!");
+							              let mut data = File::create("save.dat").expect("Could not create file!");
 							              data.write_all(data_inbytes).expect("Could not write data!");
 							              // Debug start
 							              println!("Created file!");
@@ -244,7 +260,7 @@ fn fight_with_rat(mut rhp: i32, rdamage: i32, diff: i32, mut php: i32, pd: i32, 
                         // Debug start
                         println!("php: {}", php);
                         // Debug end
-                        fight_with_rat(rhp, rdamage, diff, php, pd, p);
+                        fight_with_rat(rhp, rdamage, diff, php, pd, pc, p);
                     }
                     Ordering::Greater => {
                         println!("The rat strikes you!\n");
@@ -252,19 +268,20 @@ fn fight_with_rat(mut rhp: i32, rdamage: i32, diff: i32, mut php: i32, pd: i32, 
                         if php == 0 {
                             println!("You are dead!");
                             println!("Your progress: {}", style(p).blue());
+                            println!("Collected coins: {}", style(pc).yellow());
                             if diff == 6 {
                                 let diff_end = "EASY";
-                                println!("Your run was on {} difficulty!", style(diff_end).yellow());
+                                println!("Your run was on {} difficulty!", style(diff_end).green());
                             } else if diff == 5 {
                                 let diff_end = "NORMAL";
                                 println!("Your run was on {} difficulty!", style(diff_end).yellow());
                             } else if diff == 4 {
                                 let diff_end = "HARD";
-                                println!("Your run was on {} difficulty!", style(diff_end).yellow());
+                                println!("Your run was on {} difficulty!", style(diff_end).red());
                             }
                             // println!("Your run was on {} difficulty!", style(diff_end).yellow());
 							              let data_inbytes: &[u8] = &[p];
-							              let mut data = File::create("data.txt").expect("Could not create file!");
+							              let mut data = File::create("save.dat").expect("Could not create file!");
 						            	  data.write_all(data_inbytes).expect("Could not write data!");
 							              // Debug start
 							              println!("File created!");
@@ -277,7 +294,7 @@ fn fight_with_rat(mut rhp: i32, rdamage: i32, diff: i32, mut php: i32, pd: i32, 
                         // Debug start
                         println!("php: {}", php);
                         // Debug end
-                        fight_with_rat(rhp, rdamage, diff, php, pd, p);
+                        fight_with_rat(rhp, rdamage, diff, php, pd, pc, p);
                     }
                 }
             }
