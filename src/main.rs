@@ -21,7 +21,7 @@ pub struct Progress {
 pub struct Player {
     hp: i32,
     damage: i32,
-    coin: i32
+    coin: u8
 }
 
 fn main() {
@@ -130,7 +130,7 @@ fn game_start() {
     going_forward(progress.tile, diff, rat.hp, rat.damage, player.hp, player.damage, player.coin, false);
 }
 
-fn going_forward(mut progress: u8, diff: i32, rhp: i32, rdamage: i32, php: i32, pd: i32, mut pc: i32, pu: bool) {
+fn going_forward(mut progress: u8, diff: i32, rhp: i32, rdamage: i32, php: i32, pd: i32, mut pc: u8, pu: bool) {
     let mut tsc = rand::rng().random_range(4..=6);
     if pu == true {
         tsc = 0
@@ -197,7 +197,7 @@ fn going_forward(mut progress: u8, diff: i32, rhp: i32, rdamage: i32, php: i32, 
     }
 }
 
-fn fight_with_rat(mut rhp: i32, rdamage: i32, diff: i32, mut php: i32, pd: i32, pc: i32, p: u8) {
+fn fight_with_rat(mut rhp: i32, rdamage: i32, diff: i32, mut php: i32, pd: i32, pc: u8, p: u8) {
     let attack_chance = rand::rng().random_range(1..=10);
     // Debug start
     println!("ac: {}", attack_chance);
@@ -246,9 +246,11 @@ fn fight_with_rat(mut rhp: i32, rdamage: i32, diff: i32, mut php: i32, pd: i32, 
                                 println!("Your run was on {} difficulty!", style(diff_end).red());
                             }
                             // println!("Your run was on {} difficulty!", style(diff).yellow());
-							              let data_inbytes: &[u8] = &[p];
+							              let progress_inbytes: &[u8] = &[p];
+                            let coins_inbytes: &[u8] = &[pc];
 							              let mut data = File::create("save.dat").expect("Could not create file!");
-							              data.write_all(data_inbytes).expect("Could not write data!");
+							              data.write_all(progress_inbytes).expect("Could not write data!");
+                            data.write_all(coins_inbytes).expect("Could not write data!");
 							              // Debug start
 							              println!("Created file!");
 							              // Debug end
@@ -280,9 +282,11 @@ fn fight_with_rat(mut rhp: i32, rdamage: i32, diff: i32, mut php: i32, pd: i32, 
                                 println!("Your run was on {} difficulty!", style(diff_end).red());
                             }
                             // println!("Your run was on {} difficulty!", style(diff_end).yellow());
-							              let data_inbytes: &[u8] = &[p];
+							              let progress_inbytes: &[u8] = &[p];
+                            let coins_inbytes: &[u8] = &[pc];
 							              let mut data = File::create("save.dat").expect("Could not create file!");
-						            	  data.write_all(data_inbytes).expect("Could not write data!");
+						            	  data.write_all(progress_inbytes).expect("Could not write data!");
+                            data.write_all(coins_inbytes).expect("Could not write data!");
 							              // Debug start
 							              println!("File created!");
 							              // Debug end
