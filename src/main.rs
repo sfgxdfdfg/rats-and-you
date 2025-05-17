@@ -78,15 +78,15 @@ fn game_start() {
                 sleep(dur);
                 exit(0);
             }
-			      Event::Key(KeyEvent {
-				        code: KeyCode::Char('4'),
-				        modifiers: KeyModifiers::NONE,
-				        state: KeyEventState::NONE,
-				        kind: KeyEventKind::Press,
-			      }) => {
-				        set_diff = 4;
-				        break;
-			      }
+            Event::Key(KeyEvent {
+                code: KeyCode::Char('4'),
+                modifiers: KeyModifiers::NONE,
+                state: KeyEventState::NONE,
+                kind: KeyEventKind::Press,
+            }) => {
+                set_diff = 4;
+                break;
+            }
             Event::Key(KeyEvent {
                 code: KeyCode::Char('5'),
                 modifiers: KeyModifiers::NONE,
@@ -96,15 +96,15 @@ fn game_start() {
                 set_diff = 5;
                 break;
             }
-			      Event::Key(KeyEvent {
-			          code: KeyCode::Char('6'),
-			          modifiers: KeyModifiers::NONE,
-			          state: KeyEventState::NONE,
-			          kind: KeyEventKind::Press,
-			      }) => {
-			           set_diff = 6;
-			          break;
-			      }
+            Event::Key(KeyEvent {
+                code: KeyCode::Char('6'),
+                modifiers: KeyModifiers::NONE,
+                state: KeyEventState::NONE,
+                kind: KeyEventKind::Press,
+            }) => {
+                 set_diff = 6;
+                 break;
+            }
             _ => ()
         }
     }
@@ -246,14 +246,14 @@ fn fight_with_rat(mut rhp: i32, rdamage: i32, diff: i32, mut php: i32, pd: i32, 
                                 println!("Your run was on {} difficulty!", style(diff_end).red());
                             }
                             // println!("Your run was on {} difficulty!", style(diff).yellow());
-							              let progress_inbytes: &[u8] = &[p];
+                            let progress_inbytes: &[u8] = &[p];
                             let coins_inbytes: &[u8] = &[pc];
-							              let mut data = File::create("save.dat").expect("Could not create file!");
-							              data.write_all(progress_inbytes).expect("Could not write data!");
+                            let mut data = File::create("save.dat").expect("Could not create file!");
+                            data.write_all(progress_inbytes).expect("Could not write data!");
                             data.write_all(coins_inbytes).expect("Could not write data!");
-							              // Debug start
-							              println!("Created file!");
-							              // Debug end
+                            // Debug start
+                            println!("Created file!");
+                            // Debug end
                             println!("(The program will now exit...)");
                             let dur = Duration::new(5, 0);
                             sleep(dur);
@@ -282,14 +282,14 @@ fn fight_with_rat(mut rhp: i32, rdamage: i32, diff: i32, mut php: i32, pd: i32, 
                                 println!("Your run was on {} difficulty!", style(diff_end).red());
                             }
                             // println!("Your run was on {} difficulty!", style(diff_end).yellow());
-							              let progress_inbytes: &[u8] = &[p];
+                            let progress_inbytes: &[u8] = &[p];
                             let coins_inbytes: &[u8] = &[pc];
-							              let mut data = File::create("save.dat").expect("Could not create file!");
-						            	  data.write_all(progress_inbytes).expect("Could not write data!");
+                            let mut data = File::create("save.dat").expect("Could not create file!");
+                            data.write_all(progress_inbytes).expect("Could not write data!");
                             data.write_all(coins_inbytes).expect("Could not write data!");
-							              // Debug start
-							              println!("File created!");
-							              // Debug end
+                            // Debug start
+                            println!("File created!");
+                            // Debug end
                             println!("(The program will now exit...)");
                             let dur = Duration::new(5, 0);
                             sleep(dur);
